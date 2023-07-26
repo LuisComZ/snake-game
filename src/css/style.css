@@ -1,0 +1,24 @@
+@import url('https://fonts.googleapis.com/css2?family=Kumbh+Sans:wght@400;700&family=Outfit:wght@300;400;600&family=Overpass:wght@100;300;400;500;600;700&family=Oxanium:wght@300;400;700&family=Poppins:wght@300;400;500;600;700&family=Press+Start+2P&display=swap');
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: "Poppins", sans-serif;
+}
+
+body {
+  min-height: 100vh;
+
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+
+  color: white;
+  background-color: #191919;
+}
+
+canvas {
+  background-color: #111;
+}
