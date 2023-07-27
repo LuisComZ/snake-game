@@ -4,8 +4,42 @@ const ctx = canvas.getContext("2d")
 const size = 30
 const snake = [{ x: 300, y: 300 }]
 
+function randomNumber(min, max){
+  return Math.round(Math.random() * (max - min) + min)
+}
+
+function randomPosition() {
+  const number = randomNumber(0, canvas.width - size)
+  return Math.round(number / 30) * 30
+}
+
+function randomColor() {
+  const red = randomNumber(0, 255)
+  const green = randomNumber(0, 255)
+  const blue = randomNumber(0, 255)
+
+  return `rgb(${red}, ${green}, ${blue})`
+}
+
+const food = {
+  x: randomPosition(),
+  y: randomPosition(),
+  color: randomColor()
+}
+
 let direction
 let loopId
+
+function drawFood() {
+  const {x, y, color} = food
+
+  ctx.shadowColor = color
+  ctx.shadowBlur = 16
+  ctx.fillStyle = food.color
+  ctx.fillRect(x, y, size, size)
+  ctx.shadowBlur = 0
+}
+
 
 function drawSnake() {
   ctx.fillStyle = "#ddd"
@@ -60,6 +94,7 @@ function gameLoop() {
   drawGrid()
   moveSnake()
   drawSnake()
+  drawFood()
 
   loopId = setTimeout(function () {
     gameLoop()
