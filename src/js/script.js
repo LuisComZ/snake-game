@@ -1,10 +1,12 @@
 const canvas = document.querySelector("canvas")
 const ctx = canvas.getContext("2d")
 
+const audio = new Audio("../src/assets/audio.mp3")
+
 const size = 30
 const snake = [{ x: 300, y: 300 }]
 
-function randomNumber(min, max){
+function randomNumber(min, max) {
   return Math.round(Math.random() * (max - min) + min)
 }
 
@@ -24,14 +26,14 @@ function randomColor() {
 const food = {
   x: randomPosition(),
   y: randomPosition(),
-  color: randomColor()
+  color: randomColor(),
 }
 
 let direction
 let loopId
 
 function drawFood() {
-  const {x, y, color} = food
+  const { x, y, color } = food
 
   ctx.shadowColor = color
   ctx.shadowBlur = 16
@@ -39,7 +41,6 @@ function drawFood() {
   ctx.fillRect(x, y, size, size)
   ctx.shadowBlur = 0
 }
-
 
 function drawSnake() {
   ctx.fillStyle = "#ddd"
@@ -87,14 +88,36 @@ function drawGrid() {
   }
 }
 
+function checkEat() {
+  const head = snake[snake.length - 1]
+
+  if (head.x === food.x && head.y === food.y) {
+    snake.push(head)
+    audio.play()
+
+    let x = randomPosition()
+    let y = randomPosition()
+
+    while (snake.find((position) => position.x == x && position.y == y)) {
+      x = randomPosition()
+      y = randomPosition()
+    }
+
+    food.x = x
+    food.y = y
+    food.color = randomColor()
+  }
+}
+
 function gameLoop() {
   clearInterval(loopId)
 
   ctx.clearRect(0, 0, 600, 600)
   drawGrid()
+  drawFood()
   moveSnake()
   drawSnake()
-  drawFood()
+  checkEat()
 
   loopId = setTimeout(function () {
     gameLoop()
